@@ -57,4 +57,10 @@ class Graphe {
         copieGraphe.ajouterArete(new Arete(e.id,e.nodeEx1,e.nodeEx2))
       })
     }
+
+    retirerSommet(idNoeud){
+        const grapheTemp = this.copier()
+        grapheTemp.supprimerNoeud(idNoeud)
+        return grapheTemp
+    }
 }
