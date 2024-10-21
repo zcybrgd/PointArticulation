@@ -1,8 +1,15 @@
-# React + Vite
+# To run the project
+cd /PointArticulation
+npm i
+npm run dev
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Tasks list:
+# # logic:
+- DFS Algorithm
+- Nombre_Composantes_Connexes Algorithm
+- Alogrithme Principale
+# # ui:
+- décider la bibliothèque qu'on va utiliser
+- components (buttons and modals) to manipulate les sommets et les aretes
+- interface principale de graphe
+- afficher les points d'articulation when requested
