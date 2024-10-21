@@ -1,5 +1,8 @@
+import { Arete } from "./arete.js"
+import { Sommet } from "./sommet.js"
+
 // le graphe est non orientée
-class Graphe {
+export class Graphe {
     constructor(){
         this.noeuds = new Map()
         this.aretes = new Set() // pour qu'il y est pas une duplication ou quoi que ce soit
@@ -37,15 +40,18 @@ class Graphe {
     
     // va trouver les noeuds adjacents d'un noeud dans le graphe
     // to be optimized later if icould (i want it to map directly le noeud and not loop over toutes les aretes du graphe)
-    trouverVoisins(noeudId){
-        const voisins = []
-        this.aretes.forEach(
-            e => {
-                if(e.nodeEx1 == noeudId) voisins.push(e.nodeEx2)
-                else if (e.nodeEx2 == noeudId) voisins.push(e.nodeEx1)
+    trouverVoisins(noeudId) {
+        const voisins = [];
+        this.aretes.forEach((e) => {
+            if (e.nodeEx1 == noeudId) {
+                voisins.push(e.nodeEx2);
+            } else if (e.nodeEx2 == noeudId) {
+                voisins.push(e.nodeEx1);
             }
-        )
+        });
+        return voisins; 
     }
+    
     
     // on va ensuite l'utiliser pendant la suppression d'un sommer
     copier(){
@@ -56,11 +62,19 @@ class Graphe {
       this.aretes.forEach((e) => {
         copieGraphe.ajouterArete(new Arete(e.id,e.nodeEx1,e.nodeEx2))
       })
+      return copieGraphe
     }
 
     retirerSommet(idNoeud){
         const grapheTemp = this.copier()
         grapheTemp.supprimerNoeud(idNoeud)
         return grapheTemp
+    }
+
+    // remarquer les noeuds comme non visité pour des prochains parcours indépendants
+    resetVisites() {
+        this.noeuds.forEach(noeud => {
+            noeud.visité = false;
+        });
     }
 }
