@@ -16,27 +16,20 @@ const AjouterArete = ({ ajouterArete, nodes }) => {
 
     return (
         <form onSubmit={handleSubmit} className="ajouter-arete-form flex flex-col space-y-2 justify-center items-center">
-            <label htmlFor="nodeEx1">From Node ID:</label>
-            <select value={nodeEx1} onChange={(e) => setNodeEx1(e.target.value)} className='p-2 border w-3/4 rounded' required>
-                <option value="">Select Node</option>
+            <h2 className="text-lg">Ajouter Arete</h2>
+            <select value={nodeEx1} onChange={(e) => setNodeEx1(e.target.value)} required>
+                <option value="">Select Node 1</option>
                 {nodes.map((node) => (
-                    <option key={node.id} value={node.id}>
-                        {node.data.label} (ID: {node.id})
-                    </option>
+                    <option key={node.id} value={node.id}>{node.data.label}</option>
                 ))}
             </select>
-
-            <label htmlFor="nodeEx2">To Node ID:</label>
-            <select value={nodeEx2} onChange={(e) => setNodeEx2(e.target.value)} className='p-2 border w-3/4 rounded ' required>
-                <option value="">Select Node</option>
+            <select value={nodeEx2} onChange={(e) => setNodeEx2(e.target.value)} required>
+                <option value="">Select Node 2</option>
                 {nodes.map((node) => (
-                    <option key={node.id} value={node.id} >
-                        {node.data.label} (ID: {node.id})
-                    </option>
+                    <option key={node.id} value={node.id}>{node.data.label}</option>
                 ))}
             </select>
-
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white w-full rounded-none ">Add Edge</button>
+            <button type="submit" className="p-2 bg-green-500 text-white rounded">Ajouter Arete</button>
         </form>
     );
 };
