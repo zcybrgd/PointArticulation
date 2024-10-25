@@ -84,7 +84,7 @@ export class Graphe {
     trouverPointsArticulation() {
         const articulationPoints = new Set();
         this.resetVisites();
-        let parent = new Map();  // Garde la trace des parents des sommets dans DFS
+        let parent = new Map();  // garde la trace des parents des sommets dans DFS
 
         // DFS sur chaque sommet non visité
         this.noeuds.forEach((sommet, sommetId) => {
@@ -98,34 +98,27 @@ export class Graphe {
     DFS(sommetId, parent, articulationPoints) {
         const sommet = this.noeuds.get(sommetId);
         sommet.visité = true;
-
         // Initialiser le temps de découverte et le low-link value
         sommet.discoveryTime = sommet.low = this.time++;
         let children = 0;  // Compte le nombre d'enfants dans l'arbre DFS
-
         const voisins = this.trouverVoisins(sommetId);
         voisins.forEach((vId) => {
             const voisin = this.noeuds.get(vId);
-
             // Si le voisin n'a pas encore été visité, explorer en DFS
             if (!voisin.visité) {
                 children++;
                 parent.set(vId, sommetId);  // Marquer l'arbre DFS
                 this.DFS(vId, parent, articulationPoints);
-
                 // Vérifier si le sous-arbre via v a un lien vers un ancêtre de sommet
                 sommet.low = Math.min(sommet.low, voisin.low);
-
                 // (1) Si le sommet est racine de DFS et a deux enfants ou plus
                 if (!parent.has(sommetId) && children > 1) {
                     articulationPoints.add(sommetId);
                 }
-
                 // (2) Si sommet n'est pas la racine et le low-link de v >= discoveryTime de sommet
                 if (parent.has(sommetId) && voisin.low >= sommet.discoveryTime) {
                     articulationPoints.add(sommetId);
                 }
-
             } else if (voisin.id !== parent.get(sommetId)) {
                 // Mettre à jour low-link value de sommet pour les arêtes de retour
                 sommet.low = Math.min(sommet.low, voisin.discoveryTime);
