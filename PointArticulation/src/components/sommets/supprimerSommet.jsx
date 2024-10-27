@@ -23,7 +23,7 @@ const SupprimerSommet = ({ nodes, supprimerSommet }) => {
                 <option value="">Select Node</option>
                 {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
-                        {`${node.data.label} (ID: ${node.id})`}
+                        {node.data.label} 
                     </option>
                 ))}
             </select>
