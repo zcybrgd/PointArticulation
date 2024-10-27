@@ -9,10 +9,10 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import AjouterSommet from './components/sommets/AjouterSommet';
-import AjouterArete from './components/aretes/AjouterArete';
-import SupprimerSommet from './components/sommets/SupprimerSommet';
+import AjouterArete from './components/aretes/ajouterArete';
+import SupprimerSommet from './components/sommets/supprimerSommet';
 import SupprimerArete from './components/aretes/SupprimerArete';
-import ModifierSommet from './components/sommets/ModifierSommet';
+import ModifierSommet from './components/sommets/modifierSommet';
 import axios from 'axios';
 
 const App = () => {
