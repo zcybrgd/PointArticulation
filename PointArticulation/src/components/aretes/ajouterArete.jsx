@@ -25,7 +25,7 @@ const AjouterArete = ({ nodes, ajouterArete }) => {
                 <option value="">Select Node 1</option>
                 {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
-                        {node.data.label} {/* Display the node's label instead of ID */}
+                        {node.data.label} 
                     </option>
                 ))}
             </select>
@@ -34,7 +34,7 @@ const AjouterArete = ({ nodes, ajouterArete }) => {
                 <option value="">Select Node 2</option>
                 {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
-                        {node.data.label} {/* Display the node's label instead of ID */}
+                        {node.data.label} 
                     </option>
                 ))}
             </select>

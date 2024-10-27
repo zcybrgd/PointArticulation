@@ -9,12 +9,12 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-let graph = new Graphe(); // Initialize your graph here
+let graph = new Graphe(); // Initialize the graph here
 
 // Endpoint to add a node
 app.post('/add-node', (req, res) => {
     const node = req.body.node;
-    graph.ajouterNoeud(node.id, node.data.label); // Add to your graph logic
+    graph.ajouterNoeud(node.id, node.data.label); // Add to the graph logic
     res.sendStatus(200);
 });
 
@@ -45,7 +45,7 @@ app.delete('/remove-node/:id', (req, res) => {
     console.log(`Received request to delete node with ID: ${nodeId}`);
 
     try {
-        graph.supprimerNoeud(nodeId); // Replace this with the actual function that removes a node by ID
+        graph.supprimerNoeud(nodeId);
         res.sendStatus(200);
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -58,7 +58,7 @@ app.delete('/remove-edge/:id', (req, res) => {
     console.log(`Received request to delete edge with ID: ${edgeId}`);
 
     try {
-        graph.supprimerArete(edgeId); // Call your function to remove the edge
+        graph.supprimerArete(edgeId); // Call the function that removes the edge
         res.sendStatus(200);
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -69,7 +69,7 @@ app.delete('/remove-edge/:id', (req, res) => {
 app.post('/modify-node', (req, res) => {
     const { nodeId, newLabel } = req.body;
     try {
-        graph.modifierNoeud(nodeId, newLabel); // Call the new modifyNode method
+        graph.modifierNoeud(nodeId, newLabel);
         res.sendStatus(200);
     } catch (error) {
         res.status(400).send(error.message);

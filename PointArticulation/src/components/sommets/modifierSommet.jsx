@@ -25,7 +25,7 @@ const ModifierSommet = ({ nodes, onModifyNode }) => {
                 <option value="">Select Node</option>
                 {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
-                        {`${node.data.label} (ID: ${node.id})`} {/* Only text here */}
+                        {`${node.data.label} (ID: ${node.id})`} 
                     </option>
                 ))}
             </select>
