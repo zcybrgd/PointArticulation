@@ -150,37 +150,51 @@ const App = () => {
         };
         const voirPointsArticulation = async () => {
             try {
+                // Capture the current articulation points for logging
+                const currentArticulationPoints = [...articulationPoints]; // Copy to avoid mutation
                 const response = await axios.get('http://localhost:3000/articulation-points');
-                const points = response.data;
-                setArticulationPoints(points); // Store articulation points in state
+                const newPoints = response.data;
         
-                // Update nodes to reflect articulation points
+                // Update articulation points in state
+                setArticulationPoints(newPoints);
+        
+                // Update node colors based on current and new articulation points
                 setNodes((nds) =>
                     nds.map((node) => {
-                        // Check if the node is an articulation point
-                        if (points.includes(node.id)) {
-                            return {
-                                ...node,
-                                style: {
-                                    backgroundColor: '#addfad',
-                                    ...node.style, 
-                                },
-                            };
+                        // Determine if the node was or is an articulation point
+                        const wasArticulationPoint = currentArticulationPoints.includes(node.id);
+                        const isArticulationPoint = newPoints.includes(node.id);
+        
+                        // Determine new background color
+                        let backgroundColor;
+                        if (isArticulationPoint) {
+                            backgroundColor = '#addfad'; // New articulation point
+                        } else if (wasArticulationPoint) {
+                            backgroundColor = 'white'; // Previously was an articulation point, now reset
+                        } else {
+                            backgroundColor = node.style?.backgroundColor || 'white'; // Keep the current color or default to white
                         }
+        
                         return {
                             ...node,
-                            
-                        }; // Keep existing nodes unchanged
+                            style: {
+                                ...node.style,
+                                backgroundColor, // Set the determined color
+                            },
+                        };
                     })
                 );
         
-                console.log('Articulation Points:', points);
+                console.log('Previous Articulation Points:', currentArticulationPoints);
+                console.log('New Articulation Points:', newPoints);
             } catch (error) {
                 console.error('Error fetching articulation points:', error);
             }
         };
         
-
+        
+        
+        
     const onConnect = useCallback(
         (params) => setEdges((eds) => addEdge(params, eds)),
         [setEdges]
