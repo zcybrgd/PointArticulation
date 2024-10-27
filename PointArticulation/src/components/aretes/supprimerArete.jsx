@@ -1,14 +1,14 @@
-// SupprimerArete.jsx
 import React, { useState } from 'react';
 
-const SupprimerArete = ({ supprimerArete, edges }) => {
+const SupprimerArete = ({ edges, supprimerArete }) => {
     const [selectedEdge, setSelectedEdge] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (selectedEdge) {
-            supprimerArete(selectedEdge); // Call the function to remove the edge
-            setSelectedEdge(''); // Reset the selection
+            // Call the passed supprimerArete function
+            supprimerArete(selectedEdge);
+            setSelectedEdge(''); // Clear selection after deletion
         }
     };
 

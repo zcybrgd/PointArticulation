@@ -1,63 +1,90 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import { Graphe } from "./src/utils/ds/graphe";
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { Graphe } from './src/utils/ds/graphe.js';
 
 const app = express();
-const port = 3000; // backend port
+const PORT = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
 
-const graph = new Graphe(); //  a new graph instance
+let graph = new Graphe(); // Initialize your graph here
 
-app.post("/add-node", (req, res) => {
-    const { node } = req.body;
-    graph.ajouterNoeud(node.id, node.data.label);
-    res.status(200).send({ message: "Node added successfully" });
+// Endpoint to add a node
+app.post('/add-node', (req, res) => {
+    const node = req.body.node;
+    graph.ajouterNoeud(node.id, node.data.label); // Add to your graph logic
+    res.sendStatus(200);
 });
 
-app.post("/add-edge", (req, res) => {
-    const { edge } = req.body;
-    graph.ajouterArete(edge.id, edge.source, edge.target);
-    res.status(200).send({ message: "Edge added successfully" });
-});
 
-app.delete("/remove-node/:id", (req, res) => {
-    const nodeId = req.params.id;
-    graph.supprimerNoeud(nodeId);
-    res.status(200).send({ message: "Node removed successfully" });
-});
+// Endpoint to add an edge
+app.post('/add-edge', (req, res) => {
+    const { source, target } = req.body.edge; // Destructure source and target
+    try {
+        // Log to check if nodes exist
+        console.log(`Source: ${source}, Target: ${target}`);
 
-app.delete("/remove-edge/:id", (req, res) => {
-    const edgeId = req.params.id;
-    graph.supprimerArete(edgeId);
-    res.status(200).send({ message: "Edge removed successfully" });
-});
+        if (!graph.noeuds.has(source) || !graph.noeuds.has(target)) {
+            return res.status(400).send('One or both nodes do not exist.');
+        }
 
-app.post("/modify-node", (req, res) => {
-    const { nodeId, newLabel } = req.body;
-    const node = graph.noeuds.get(nodeId);
-    if (node) {
-        node.label = newLabel;
-        res.status(200).send({ message: "Node modified successfully" });
-    } else {
-        res.status(404).send({ message: "Node not found" });
+        const edgeId = `e${source}-${target}`;
+        graph.ajouterArete(edgeId, source, target);
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(400).send(error.message);
     }
 });
 
-app.post("/articulation-points", (req, res) => {
-    const { nodes, edges } = req.body;
-    graph.noeuds.clear();
-    graph.aretes.clear();
 
-    nodes.forEach(node => graph.ajouterNoeud(node.id, node.data.label));
-    edges.forEach(edge => graph.ajouterArete(edge.id, edge.source, edge.target));
+// Endpoint to remove a node
+app.delete('/remove-node/:id', (req, res) => {
+    const nodeId = req.params.id;
+    console.log(`Received request to delete node with ID: ${nodeId}`);
 
-    const articulationPoints = graph.trouverPointsArticulation();
-    res.status(200).send({ articulationPoints: Array.from(articulationPoints) });
+    try {
+        graph.supprimerNoeud(nodeId); // Replace this with the actual function that removes a node by ID
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
 });
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+// Endpoint to remove an edge
+app.delete('/remove-edge/:id', (req, res) => {
+    const edgeId = req.params.id;
+    console.log(`Received request to delete edge with ID: ${edgeId}`);
+
+    try {
+        graph.supprimerArete(edgeId); // Call your function to remove the edge
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+// Endpoint to modify a node
+app.post('/modify-node', (req, res) => {
+    const { nodeId, newLabel } = req.body;
+    try {
+        graph.modifierNoeud(nodeId, newLabel); // Call the new modifyNode method
+        res.sendStatus(200);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+
+// Endpoint to get articulation points
+app.get('/articulation-points', (req, res) => {
+    const articulationPoints = graph.trouverPointsArticulation();
+    console.log('Articulation Points:', articulationPoints); // Log points to the console
+    res.json(Array.from(articulationPoints)); // Send points as JSON response
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

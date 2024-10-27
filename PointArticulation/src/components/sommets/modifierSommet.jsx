@@ -1,14 +1,13 @@
-// ModifierSommet.jsx
 import React, { useState } from 'react';
 
-const ModifierSommet = ({ modifierSommet, nodes }) => {
+const ModifierSommet = ({ nodes, onModifyNode }) => {
     const [selectedNode, setSelectedNode] = useState('');
     const [newLabel, setNewLabel] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (selectedNode && newLabel) {
-            modifierSommet(selectedNode, newLabel); // Call the function to modify the node label
+            onModifyNode(selectedNode, newLabel); // Call the passed function
             setSelectedNode('');
             setNewLabel('');
         }
@@ -26,7 +25,7 @@ const ModifierSommet = ({ modifierSommet, nodes }) => {
                 <option value="">Select Node</option>
                 {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
-                        {node.data.label} (ID: {node.id})
+                        {`${node.data.label} (ID: ${node.id})`} {/* Only text here */}
                     </option>
                 ))}
             </select>
