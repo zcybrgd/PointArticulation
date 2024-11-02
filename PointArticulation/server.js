@@ -9,27 +9,24 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-let graph = new Graphe(); // Initialize the graph here
+// initialiser le graphe
+let graph = new Graphe(); 
 
-// Endpoint to add a node
+// ajouter un noeud
 app.post('/add-node', (req, res) => {
     const node = req.body.node;
-    graph.ajouterNoeud(node.id, node.data.label); // Add to the graph logic
+    graph.ajouterNoeud(node.id, node.data.label); 
     res.sendStatus(200);
 });
 
 
-// Endpoint to add an edge
+// ajouter arete
 app.post('/add-edge', (req, res) => {
-    const { source, target } = req.body.edge; // Destructure source and target
+    const { source, target } = req.body.edge; // les 2 extrémités de l'arete
     try {
-        // Log to check if nodes exist
-        console.log(`Source: ${source}, Target: ${target}`);
-
         if (!graph.noeuds.has(source) || !graph.noeuds.has(target)) {
             return res.status(400).send('One or both nodes do not exist.');
         }
-
         const edgeId = `e${source}-${target}`;
         graph.ajouterArete(edgeId, source, target);
         res.sendStatus(200);
@@ -39,7 +36,7 @@ app.post('/add-edge', (req, res) => {
 });
 
 
-// Endpoint to remove a node
+// supprimer noeud
 app.delete('/remove-node/:id', (req, res) => {
     const nodeId = req.params.id;
     console.log(`Received request to delete node with ID: ${nodeId}`);
@@ -52,20 +49,20 @@ app.delete('/remove-node/:id', (req, res) => {
     }
 });
 
-// Endpoint to remove an edge
+// supprimer arete
 app.delete('/remove-edge/:id', (req, res) => {
     const edgeId = req.params.id;
     console.log(`Received request to delete edge with ID: ${edgeId}`);
 
     try {
-        graph.supprimerArete(edgeId); // Call the function that removes the edge
+        graph.supprimerArete(edgeId); 
         res.sendStatus(200);
     } catch (error) {
         res.status(400).send({ error: error.message });
     }
 });
 
-// Endpoint to modify a node
+// modifier sommet
 app.post('/modify-node', (req, res) => {
     const { nodeId, newLabel } = req.body;
     try {
@@ -77,14 +74,14 @@ app.post('/modify-node', (req, res) => {
 });
 
 
-// Endpoint to get articulation points
+// récuperer les points d'articulation
 app.get('/articulation-points', (req, res) => {
     const articulationPoints = graph.trouverPointsArticulation();
-    console.log('Articulation Points:', articulationPoints); // Log points to the console
-    res.json(Array.from(articulationPoints)); // Send points as JSON response
+    console.log('Articulation Points:', articulationPoints); 
+    res.json(Array.from(articulationPoints)); 
 });
 
-// Start the server
+// start the express server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

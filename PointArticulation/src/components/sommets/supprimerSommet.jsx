@@ -7,7 +7,7 @@ const SupprimerSommet = ({ nodes, supprimerSommet }) => {
         e.preventDefault();
         if (selectedNode) {
             supprimerSommet(selectedNode);
-            setSelectedNode('');  // Clear the selected node after deletion
+            setSelectedNode(''); 
         }
     };
 

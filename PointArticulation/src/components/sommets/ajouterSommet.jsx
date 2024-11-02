@@ -6,8 +6,8 @@ const AjouterSommet = ({ ajouterSommet }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (label) {
-            ajouterSommet(label);  // Call the function passed from the parent
-            setLabel('');  // Clear the input field
+            ajouterSommet(label);  
+            setLabel(''); 
         }
     };
 

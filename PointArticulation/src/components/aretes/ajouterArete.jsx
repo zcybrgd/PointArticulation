@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+
 
 const AjouterArete = ({ nodes, ajouterArete }) => {
     const [nodeEx1, setNodeEx1] = useState('');
@@ -9,7 +9,7 @@ const AjouterArete = ({ nodes, ajouterArete }) => {
         e.preventDefault();
         if (nodeEx1 && nodeEx2 && nodeEx1 !== nodeEx2) {
             try {
-                await ajouterArete(nodeEx1, nodeEx2);  // Call the ajouterArete function
+                await ajouterArete(nodeEx1, nodeEx2);  
                 setNodeEx1('');
                 setNodeEx2('');
             } catch (error) {

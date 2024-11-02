@@ -4,8 +4,8 @@ import { Sommet } from "./sommet.js";
 export class Graphe {
     constructor() {
         this.noeuds = new Map();
-        this.aretes = new Set(); // Prevent duplication
-        this.time = 0; // Global counter for discovery times
+        this.aretes = new Set(); // pour que les aretes ne soient jamais dupliquées
+        this.time = 0; // à une relation avec l'implémentation de tarjan
     }
 
     ajouterNoeud(id, name) {
@@ -27,7 +27,7 @@ export class Graphe {
         if (this.noeuds.has(nodeEx1id) && this.noeuds.has(nodeEx2id)) {
             const nouvelleArete = new Arete(id, nodeEx1id, nodeEx2id);
             this.aretes.add(nouvelleArete);
-            return nouvelleArete; // Return the newly added edge
+            return nouvelleArete; 
         }
         throw new Error('One or both nodes do not exist.');
     }
@@ -36,7 +36,7 @@ export class Graphe {
         for (const e of this.aretes) {
             if (e.id === id) {
                 this.aretes.delete(e);
-                return; // Edge removed successfully
+                return;
             }
         }
         throw new Error('Edge does not exist.');
@@ -45,7 +45,7 @@ export class Graphe {
     modifierNoeud(id, newLabel) {
         const sommet = this.noeuds.get(id);
         if (sommet) {
-            sommet.label = newLabel; // Update the label of the node
+            sommet.label = newLabel; 
         } else {
             throw new Error('Node does not exist.');
         }
@@ -91,7 +91,7 @@ export class Graphe {
     trouverPointsArticulation() {
         const articulationPoints = new Set();
         this.resetVisites();
-        let parent = new Map(); // Track parent nodes in DFS
+        let parent = new Map();
 
         this.noeuds.forEach((sommet, sommetId) => {
             if (!sommet.visité) {
@@ -127,7 +127,7 @@ export class Graphe {
         });
     }
 
-    // Method to convert graph to a JSON-compatible format for sending to frontend
+    // Pour convertir en json for frontend sending and handling
     toJSON() {
         return {
             nodes: Array.from(this.noeuds.values()).map((node) => ({

@@ -6,9 +6,8 @@ const SupprimerArete = ({ edges, supprimerArete }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (selectedEdge) {
-            // Call the passed supprimerArete function
             supprimerArete(selectedEdge);
-            setSelectedEdge(''); // Clear selection after deletion
+            setSelectedEdge(''); 
         }
     };
 

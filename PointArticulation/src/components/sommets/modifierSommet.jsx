@@ -7,7 +7,7 @@ const ModifierSommet = ({ nodes, onModifyNode }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (selectedNode && newLabel) {
-            onModifyNode(selectedNode, newLabel); // Call the passed function
+            onModifyNode(selectedNode, newLabel); 
             setSelectedNode('');
             setNewLabel('');
         }

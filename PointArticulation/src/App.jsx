@@ -26,14 +26,13 @@ const App = () => {
         modifierSommet: false,
     });
 
-    const [articulationPoints, setArticulationPoints] = useState([]); // State to store articulation points
+    const [articulationPoints, setArticulationPoints] = useState([]); 
 
-    const [nextNodeId, setNextNodeId] = useState(1); // Initialize a state for the next node ID
+    const [nextNodeId, setNextNodeId] = useState(1); 
 
-    // Function to add a node
     const ajouterSommet = async (label) => {
         const newNode = {
-            id: nextNodeId.toString(), // Use the current value of nextNodeId
+            id: nextNodeId.toString(),
             data: {
                 label: <span style={{ color: 'black' }}>{label}</span>,
                 handles: [],
@@ -42,37 +41,33 @@ const App = () => {
             draggable: true,
         };
 
-        // Call backend to add node
+
         await axios.post('http://localhost:3000/add-node', { node: newNode });
 
         setNodes((nds) => {
             const updatedNodes = [...nds, newNode];
-            console.log('Node added:', newNode); // Log added node
+            console.log('Node added:', newNode); 
             return updatedNodes;
         });
 
-        setNextNodeId((prevId) => prevId + 1); // Increment the node ID for the next node
+        setNextNodeId((prevId) => prevId + 1);
         toggleInputs('sommet');
     };
 
-
-    // Function to add an edge
     const ajouterArete = async (nodeEx1, nodeEx2) => {
         const newEdge = { id: `e${nodeEx1}-${nodeEx2}`, source: nodeEx1, target: nodeEx2 };
 
-        // Call backend to add edge
         await axios.post('http://localhost:3000/add-edge', { edge: newEdge });
 
         setEdges((eds) => {
             const updatedEdges = [...eds, newEdge];
-            console.log('Edge added:', newEdge); // Log added edge
+            console.log('Edge added:', newEdge); 
             return updatedEdges;
         });
         updateNodeHandles(nodeEx1, nodeEx2);
         toggleInputs('arete');
     };
 
-    // Function to update handles of nodes
     const updateNodeHandles = (nodeEx1, nodeEx2) => {
         setNodes((nds) =>
             nds.map((node) => {
@@ -117,13 +112,12 @@ const App = () => {
         }
     };
 
-     // Function to remove an edge
      const supprimerArete = async (edgeId) => {
         try {
             await axios.delete(`http://localhost:3000/remove-edge/${edgeId}`);
             setEdges((eds) => {
                 const updatedEdges = eds.filter((edge) => edge.id !== edgeId);
-                console.log('Edge removed:', edgeId); // Log removed edge
+                console.log('Edge removed:', edgeId);
                 return updatedEdges;
             });
             toggleInputs('supprimerArete');
@@ -131,7 +125,6 @@ const App = () => {
             console.error('Error removing edge:', error);
         }
     };
-        // Function to modify a node
         const modifierSommet = async (nodeId, newLabel) => {
             try {
                 await axios.post('http://localhost:3000/modify-node', { nodeId, newLabel });
@@ -142,7 +135,7 @@ const App = () => {
                     )
                 );
     
-                console.log('Node modified:', nodeId); // Log modified node
+                console.log('Node modified:', nodeId);
                 toggleInputs('modifierSommet');
             } catch (error) {
                 console.error('Error modifying node:', error);
@@ -150,36 +143,31 @@ const App = () => {
         };
         const voirPointsArticulation = async () => {
             try {
-                // Capture the current articulation points for logging
-                const currentArticulationPoints = [...articulationPoints]; // Copy to avoid mutation
+                
+                const currentArticulationPoints = [...articulationPoints];
                 const response = await axios.get('http://localhost:3000/articulation-points');
                 const newPoints = response.data;
         
-                // Update articulation points in state
                 setArticulationPoints(newPoints);
-        
-                // Update node colors based on current and new articulation points
                 setNodes((nds) =>
                     nds.map((node) => {
-                        // Determine if the node was or is an articulation point
+                      
                         const wasArticulationPoint = currentArticulationPoints.includes(node.id);
                         const isArticulationPoint = newPoints.includes(node.id);
-        
-                        // Determine new background color
                         let backgroundColor;
                         if (isArticulationPoint) {
-                            backgroundColor = '#addfad'; // New articulation point
+                            backgroundColor = '#addfad'; 
                         } else if (wasArticulationPoint) {
-                            backgroundColor = 'white'; // Previously was an articulation point, now reset
+                            backgroundColor = 'white'; 
                         } else {
-                            backgroundColor = node.style?.backgroundColor || 'white'; // Keep the current color or default to white
+                            backgroundColor = node.style?.backgroundColor || 'white'; 
                         }
         
                         return {
                             ...node,
                             style: {
                                 ...node.style,
-                                backgroundColor, // Set the determined color
+                                backgroundColor, 
                             },
                         };
                     })
@@ -214,7 +202,7 @@ const App = () => {
         [setEdges]
     );
 
-    // Toggle input display based on the clicked option
+
     const toggleInputs = (type) => {
         setShowInput((prev) => {
             const newState = {
@@ -230,14 +218,14 @@ const App = () => {
     };
 
     return (
-        <div className="app bg-cyan-900 flex flex-row h-screen w-screen pr-10">
-            <div className='flex flex-col w-1/6 bg-cyan-950 justify-start place-items-center'>
+        <div className="app bg-gray-200 flex flex-row h-screen w-screen pr-10">
+            <div className='flex flex-col w-1/6 bg-slate-800 justify-start place-items-center'>
                 <ul className='space-y-4 text-center w-full mt-[40%]'>
-                    <li onClick={() => toggleInputs('sommet')} className='hover:bg-cyan-900 hover:text-white p-2 cursor-pointer'>Ajouter Noeud</li>
-                    <li onClick={() => toggleInputs('arete')} className='hover:bg-cyan-900 hover:text-white p-2 cursor-pointer'>Ajouter Arete</li>
-                    <li onClick={() => toggleInputs('supprimerSommet')} className='hover:bg-cyan-900 hover:text-white p-2 cursor-pointer'>Supprimer Noeud</li>
-                    <li onClick={() => toggleInputs('supprimerArete')} className='hover:bg-cyan-900 hover:text-white p-2 cursor-pointer'>Supprimer Arete</li>
-                    <li onClick={() => toggleInputs('modifierSommet')} className='hover:bg-cyan-900 hover:text-white p-2 cursor-pointer mb-12'>Modifier Noeud</li>
+                    <li onClick={() => toggleInputs('sommet')} className='hover:bg-teal-600 hover:text-white p-2 cursor-pointer'>Ajouter Noeud</li>
+                    <li onClick={() => toggleInputs('arete')} className='hover:bg-teal-600 hover:text-white p-2 cursor-pointer'>Ajouter Arete</li>
+                    <li onClick={() => toggleInputs('supprimerSommet')} className='hover:bg-teal-600 hover:text-white p-2 cursor-pointer'>Supprimer Noeud</li>
+                    <li onClick={() => toggleInputs('supprimerArete')} className='hover:bg-teal-600 hover:text-white p-2 cursor-pointer'>Supprimer Arete</li>
+                    <li onClick={() => toggleInputs('modifierSommet')} className='hover:bg-teal-600 hover:text-white p-2 cursor-pointer mb-12'>Modifier Noeud</li>
 
                     {showInput.sommet && <AjouterSommet ajouterSommet={ajouterSommet} />}
                     {showInput.arete && <AjouterArete ajouterArete={ajouterArete} nodes={nodes} />}
@@ -246,14 +234,14 @@ const App = () => {
                     {showInput.modifierSommet && (
     <ModifierSommet
         nodes={nodes}
-        onModifyNode={modifierSommet} // Ensure this function is passed
+        onModifyNode={modifierSommet} 
     />
 )}                </ul>
             </div>
 
             <div className='flex-grow flex flex-col justify-center pl-10'>
-                <h1 className='text-5xl inline text-center font-medium mb-10'>Graph Visualization</h1>
-                <div style={{ height: '500px', border: '1px solid black', color: 'black' }}>
+                <h1 className='text-5xl inline text-center font-medium mb-10 text-slate-700'>Graph Visualization : Lab1 TPRO</h1>
+                <div style={{ height: '500px', border: '1px solid #4A5568', color: 'black' }}>
                     <ReactFlow
                         nodes={nodes}
                         edges={edges}
@@ -269,8 +257,8 @@ const App = () => {
                     </ReactFlow>
                 </div>
                   <button
-                    onClick={voirPointsArticulation} // Call the function when clicked
-                    className="mt-4 p-2 bg-blue-500 text-white rounded-none w-1/2 ml-[25%]"
+                    onClick={voirPointsArticulation} 
+                    className="mt-4 p-2 bg-slate-800 text-white rounded-none w-1/2 ml-[25%]"
                 >
                     Voir les points d'articulation
                 </button>
