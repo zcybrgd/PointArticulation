@@ -3,13 +3,10 @@ cd /PointArticulation
 npm i
 npm run dev
 
-# Tasks list:
-## logic:
-- DFS Algorithm
-- Nombre_Composantes_Connexes Algorithm
-- Alogrithme Principale
-## ui:
-- décider la bibliothèque qu'on va utiliser
-- components (buttons and modals) to manipulate les sommets et les aretes
-- interface principale de graphe
-- afficher les points d'articulation when requested
+# Resources for algorithm implementation
+
+1. https://fr.wikipedia.org/wiki/Algorithme_de_Tarjan
+
+2. https://www.geeksforgeeks.org/tarjans-algorithm-in-python/
+
+3. https://www.baeldung.com/cs/scc-tarjans-algorithm
